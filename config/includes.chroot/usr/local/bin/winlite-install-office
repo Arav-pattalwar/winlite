@@ -2,7 +2,8 @@
 # Installs the user's OWN licensed Microsoft Office into a dedicated Wine prefix.
 # Best results: Office 2010 or 2013 (32-bit). Newer versions are hit and miss under Wine.
 export WINEPREFIX="$HOME/.wine-office"
-export WINEARCH=win32
+# WebView2 needs a 64-bit prefix; 32-bit Office still runs inside it.
+if [ "$(dpkg --print-architecture)" = amd64 ]; then export WINEARCH=win64; else export WINEARCH=win32; fi
 export WINEDEBUG=-all
 
 zenity --question --width=480 --title="Install Microsoft Office" \
@@ -15,7 +16,12 @@ SETUP=$(zenity --file-selection --title="Select your Office setup.exe" \
   echo "# Preparing Windows environment..."
   wineboot -i
   echo "# Installing fonts and libraries..."
-  winetricks -q corefonts msxml6 gdiplus riched20 riched30 fontsmooth=rgb
+  winetricks -q win10 corefonts msxml6 gdiplus riched20 riched30 fontsmooth=rgb
+  echo "# Downloading Microsoft Edge WebView2 Runtime (needed for Microsoft account sign-in)..."
+  # Downloaded from Microsoft at install time (not bundled in the ISO). Best effort:
+  # WebView2 under Wine is experimental and may not install on every Wine version.
+  curl -fsSL -o /tmp/MicrosoftEdgeWebview2Setup.exe "https://go.microsoft.com/fwlink/p/?LinkId=2124703" \
+    && wine /tmp/MicrosoftEdgeWebview2Setup.exe /silent /install || true
 ) | zenity --progress --pulsate --auto-close --no-cancel --title="Preparing Office" --width=420
 
 wine start /unix "$SETUP"
