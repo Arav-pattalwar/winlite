@@ -17,6 +17,20 @@ if [ "$(dpkg --print-architecture)" = amd64 ]; then
   dpkg --add-architecture i386
   apt-get update
   apt-get install -y wine32:i386 || true
+
+  # --- Newer Wine from the official WineHQ repository (Debian's own Wine is 8.0) ---
+  mkdir -p /etc/apt/keyrings
+  if curl -fsSL -o /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
+     && curl -fsSL -o /etc/apt/sources.list.d/winehq-bookworm.sources https://dl.winehq.org/wine-builds/debian/dists/bookworm/winehq-bookworm.sources; then
+    apt-get update
+    apt-get install -y --install-recommends winehq-stable || true
+  fi
+  # Make the WineHQ build the default `wine` if it installed.
+  if [ -x /opt/wine-stable/bin/wine ]; then
+    for b in wine wine64 wineboot winecfg wineserver winepath; do
+      [ -x /opt/wine-stable/bin/$b ] && ln -sf /opt/wine-stable/bin/$b /usr/local/bin/$b
+    done
+  fi
 fi
 
 # --- OnlyOffice Desktop Editors (free; best .docx/.xlsx/.pptx fidelity; amd64 only) ---
