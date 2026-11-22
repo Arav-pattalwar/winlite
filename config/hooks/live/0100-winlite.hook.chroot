@@ -49,7 +49,8 @@ for app in "Word|https://www.office.com/launch/word" \
            "Excel|https://www.office.com/launch/excel" \
            "PowerPoint|https://www.office.com/launch/powerpoint" \
            "Outlook|https://outlook.office.com/mail/" \
-           "OneDrive|https://onedrive.live.com/"; do
+           "OneDrive|https://onedrive.live.com/" \
+           "Canva|https://www.canva.com/"; do
   name=${app%%|*}; url=${app#*|}
   cat > "/usr/share/applications/office-$name.desktop" <<EOF
 [Desktop Entry]

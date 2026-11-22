@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Install Canva Desktop App
+Comment=Install the Canva Windows app through Wine (experimental)
+Exec=/usr/local/bin/winlite-install-canva
+Icon=applications-graphics
+Type=Application
+Categories=Graphics;
