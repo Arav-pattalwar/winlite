@@ -41,7 +41,10 @@ firmware-iwlwifi
 firmware-realtek
 firmware-atheros
 zenity
+dkms
 #if ARCHITECTURES amd64
 linux-headers-amd64
-dkms
+#endif
+#if ARCHITECTURES i386
+linux-headers-686
 #endif
