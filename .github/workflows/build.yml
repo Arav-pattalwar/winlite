@@ -5,6 +5,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,10 +29,32 @@ jobs:
           chmod +x build.sh config/hooks/live/*.chroot config/includes.chroot/usr/local/bin/*
           sudo ARCH=${{ matrix.arch }} ./build.sh
 
-      - name: Upload ISO
+      - name: Upload ISO (artifact)
         uses: actions/upload-artifact@v4
         with:
           name: winlite-${{ matrix.arch }}-iso
           path: "*.iso"
           retention-days: 14
           compression-level: 0
+
+      - name: Publish public release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ISO=$(ls -1 *.iso | head -n1)
+          mv "$ISO" WinLite-${{ matrix.arch }}.iso
+          sha256sum WinLite-${{ matrix.arch }}.iso > WinLite-${{ matrix.arch }}.iso.sha256
+          FILES="WinLite-${{ matrix.arch }}.iso.sha256"
+          NOTE="Verify with sha256sum. Boot the ISO in a VM or write it to USB with Rufus/balenaEtcher."
+          # GitHub release assets are limited to 2 GiB per file: split if needed.
+          if [ "$(stat -c %s WinLite-${{ matrix.arch }}.iso)" -gt 2000000000 ]; then
+            split -b 1900M -d WinLite-${{ matrix.arch }}.iso WinLite-${{ matrix.arch }}.iso.part
+            FILES="$FILES WinLite-${{ matrix.arch }}.iso.part*"
+            NOTE="$NOTE ISO is split: download all parts, then join: cat WinLite-${{ matrix.arch }}.iso.part* > WinLite-${{ matrix.arch }}.iso (Windows: copy /b part00+part01 WinLite-${{ matrix.arch }}.iso)."
+          else
+            FILES="$FILES WinLite-${{ matrix.arch }}.iso"
+          fi
+          gh release create "winlite-${{ matrix.arch }}-${{ github.run_number }}" $FILES \
+            --repo "${{ github.repository }}" \
+            --title "WinLite ${{ matrix.arch }} (build ${{ github.run_number }})" \
+            --notes "$NOTE"
