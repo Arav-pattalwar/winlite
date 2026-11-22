@@ -15,7 +15,6 @@ gvfs-backends
 pulseaudio
 pavucontrol
 wine
-wine32
 winetricks
 cabextract
 fonts-noto

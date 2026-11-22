@@ -12,6 +12,13 @@ rm -rf /tmp/Fluent-*
 
 # --- Browser: Chromium (open source, installed from the package list) ---
 
+# --- 32-bit Windows programs on the 64-bit image: enable i386 and add wine32 ---
+if [ "$(dpkg --print-architecture)" = amd64 ]; then
+  dpkg --add-architecture i386
+  apt-get update
+  apt-get install -y wine32:i386 || true
+fi
+
 # --- Microsoft Office: cannot be bundled (licensed). Provide Office on the web
 #     shortcuts and OnlyOffice-compatible LibreOffice for .docx/.xlsx/.pptx. ---
 mkdir -p /usr/share/applications
