@@ -45,16 +45,17 @@ fi
 mkdir -p /usr/share/applications
 # One shared browser profile, so signing in once (e.g. with a Microsoft 365 Family
 # account) is remembered across Word, Excel, PowerPoint, Outlook and OneDrive.
-for app in "Word|https://www.office.com/launch/word" \
-           "Excel|https://www.office.com/launch/excel" \
-           "PowerPoint|https://www.office.com/launch/powerpoint" \
-           "Outlook|https://outlook.office.com/mail/" \
-           "OneDrive|https://onedrive.live.com/" \
+for app in "Microsoft Word|https://www.office.com/launch/word" \
+           "Microsoft Excel|https://www.office.com/launch/excel" \
+           "Microsoft PowerPoint|https://www.office.com/launch/powerpoint" \
+           "Microsoft Outlook|https://outlook.office.com/mail/" \
+           "Microsoft OneDrive|https://onedrive.live.com/" \
            "Canva|https://www.canva.com/"; do
   name=${app%%|*}; url=${app#*|}
-  cat > "/usr/share/applications/office-$name.desktop" <<EOF
+  fname=$(echo "$name" | tr ' ' '-')
+  cat > "/usr/share/applications/web-$fname.desktop" <<EOF
 [Desktop Entry]
-Name=Microsoft $name (Web)
+Name=$name (Web)
 Exec=sh -c 'chromium --user-data-dir="\$HOME/.config/winlite-office" --app=$url'
 Icon=applications-office
 Type=Application

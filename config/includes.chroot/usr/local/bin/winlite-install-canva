@@ -7,7 +7,7 @@ if [ "$(dpkg --print-architecture)" = amd64 ]; then export WINEARCH=win64; else 
 export WINEDEBUG=-all
 
 zenity --question --width=500 --title="Install Canva desktop app" \
-  --text="Canva has no Linux app, so this runs the Windows version through Wine.\nThis is experimental: it may be slow or may not start.\nThe Canva website (Microsoft Office-style web shortcut: 'Canva (Web)') always works.\n\nStep 1: your browser will open canva.com/download. Download the Windows installer.\nStep 2: come back, click OK, and choose the downloaded file.\n\nContinue?" || exit 0
+  --text="Canva has no Linux app, so this runs the Windows version through Wine.\nThis is experimental: it may be slow or may not start.\nThe 'Canva (Web)' menu shortcut always works as a fallback.\n\nStep 1: your browser will open canva.com/download. Download the Windows installer.\nStep 2: come back, click OK, and choose the downloaded file.\n\nContinue?" || exit 0
 
 xdg-open "https://www.canva.com/download/" >/dev/null 2>&1 &
 
