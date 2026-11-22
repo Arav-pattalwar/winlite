@@ -1,0 +1,18 @@
+#!/bin/sh
+# Apply Windows 11-style look once per user.
+MARK="$HOME/.config/.winlite-done"
+[ -e "$MARK" ] && exit 0
+
+xfconf-query -c xsettings -p /Net/ThemeName -s "Fluent-round-Light" --create -t string
+xfconf-query -c xsettings -p /Net/IconThemeName -s "Fluent" --create -t string
+xfconf-query -c xfwm4 -p /general/theme -s "Fluent-round-Light" --create -t string
+xfconf-query -c xfwm4 -p /general/button_layout -s "|HMC" --create -t string
+xfconf-query -c xfwm4 -p /general/use_compositing -s false --create -t bool
+
+# Single bottom taskbar, no top panel
+xfconf-query -c xfce4-panel -p /panels -t int -s 1 -a 2>/dev/null
+xfconf-query -c xfce4-panel -p /panels/panel-1/position -s "p=8;x=0;y=0" --create -t string
+xfconf-query -c xfce4-panel -p /panels/panel-1/size -s 44 --create -t uint
+
+touch "$MARK"
+xfce4-panel -r

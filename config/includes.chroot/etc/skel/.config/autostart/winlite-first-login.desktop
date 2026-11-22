@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=WinLite first login setup
+Exec=/usr/local/bin/winlite-first-login
+X-GNOME-Autostart-enabled=true
