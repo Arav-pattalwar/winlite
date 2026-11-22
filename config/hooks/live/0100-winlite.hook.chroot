@@ -10,14 +10,7 @@ git clone --depth 1 https://github.com/vinceliuice/Fluent-icon-theme.git
 (cd Fluent-icon-theme && ./install.sh)
 rm -rf /tmp/Fluent-*
 
-# --- Google Chrome (amd64 only; Google ships no i386 build, use Chromium there) ---
-if [ "$(dpkg --print-architecture)" = amd64 ]; then
-  curl -fsSL -o /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  apt-get install -y /tmp/chrome.deb
-  rm /tmp/chrome.deb
-else
-  apt-get install -y chromium
-fi
+# --- Browser: Chromium (open source, installed from the package list) ---
 
 # --- Microsoft Office: cannot be bundled (licensed). Provide Office on the web
 #     shortcuts and OnlyOffice-compatible LibreOffice for .docx/.xlsx/.pptx. ---
@@ -27,7 +20,7 @@ for app in "Word|word" "Excel|excel" "PowerPoint|powerpoint"; do
   cat > /usr/share/applications/office-$slug.desktop <<EOF
 [Desktop Entry]
 Name=Microsoft $name (Web)
-Exec=google-chrome-stable --app=https://www.office.com/launch/$slug
+Exec=chromium --app=https://www.office.com/launch/$slug
 Icon=applications-office
 Type=Application
 Categories=Office;

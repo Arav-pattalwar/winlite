@@ -9,7 +9,7 @@ a live-build recipe: you build the ISO yourself.
 | One core, 4 GB RAM | Xfce, no compositor, zram, earlyoom, trimmed services (~500 MB idle) |
 | Old processors | `ARCH=i386` builds a 32-bit image for pre-x86-64 CPUs |
 | Runs .exe | Wine, double-click `.exe` / `.msi` |
-| Chrome preinstalled | Google Chrome (amd64) / Chromium (i386) |
+| Chrome preinstalled | Chromium (open source, the same engine as Chrome; Google Chrome itself can't be redistributed) |
 | Office preinstalled | LibreOffice (opens .docx/.xlsx/.pptx) + Word/Excel/PowerPoint web shortcuts. Desktop Microsoft Office is licensed, so it can't be bundled; install your own copy via Wine |
 | No Copilot | No AI assistant or telemetry is installed |
 | NT kernel | Dropped as agreed. This uses the Linux kernel |

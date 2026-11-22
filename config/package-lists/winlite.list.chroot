@@ -6,6 +6,7 @@ lightdm
 lightdm-gtk-greeter
 network-manager-gnome
 thunar
+chromium
 xfce4-terminal
 mousepad
 file-roller
