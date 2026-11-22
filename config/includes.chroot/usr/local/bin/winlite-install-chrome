@@ -1,0 +1,27 @@
+#!/bin/sh
+# Downloads Google Chrome from Google and installs it on this machine.
+# Nothing from Google is stored in the WinLite ISO.
+
+if [ "$(dpkg --print-architecture)" != amd64 ]; then
+  zenity --error --width=420 --title="Install Google Chrome" \
+    --text="Google does not provide Chrome for 32-bit Linux.\nUse Chromium, which is already installed."
+  exit 0
+fi
+
+if command -v google-chrome-stable >/dev/null 2>&1; then
+  zenity --info --width=360 --title="Install Google Chrome" --text="Google Chrome is already installed."
+  exit 0
+fi
+
+zenity --question --width=460 --title="Install Google Chrome" \
+  --text="This downloads Google Chrome (about 110 MB) from google.com and installs it.\nIt needs an internet connection and your password.\n\nContinue?" || exit 0
+
+DEB="$HOME/google-chrome-stable_current_amd64.deb"
+if ! curl -fL -o "$DEB" https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; then
+  zenity --error --width=360 --title="Install Google Chrome" --text="Download failed. Check your internet connection."
+  exit 1
+fi
+
+# Run in a terminal so the user sees progress and can enter the sudo password.
+xfce4-terminal --title="Installing Google Chrome" -x sh -c \
+  "sudo apt-get install -y '$DEB' && echo && echo 'Google Chrome installed. You can close this window.' || echo 'Install failed.'; rm -f '$DEB'; read -r _"

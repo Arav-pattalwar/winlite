@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Install Google Chrome
+Comment=Download and install Google Chrome from Google
+Exec=/usr/local/bin/winlite-install-chrome
+Icon=web-browser
+Type=Application
+Categories=Network;WebBrowser;
