@@ -10,7 +10,7 @@ apt-get update
 apt-get install -y live-build debootstrap squashfs-tools xorriso curl git debian-archive-keyring
 
 lb clean --purge || true
-M=http://deb.debian.org/debian/
+M=http://deb.debian.org/debian
 lb config \
   --mode debian \
   --distribution bookworm \
@@ -24,6 +24,7 @@ lb config \
   --iso-application "WinLite" --iso-volume "WinLite" \
   --archive-areas "main contrib non-free non-free-firmware" \
   --apt-recommends false \
+  --firmware-chroot false --firmware-binary false \
   --security false
 
 lb build

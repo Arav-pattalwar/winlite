@@ -36,3 +36,8 @@ sassc
 gnome-themes-extra
 gtk2-engines-murrine
 dconf-cli
+firmware-linux-free
+firmware-linux-nonfree
+firmware-iwlwifi
+firmware-realtek
+firmware-atheros
