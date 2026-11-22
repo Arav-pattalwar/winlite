@@ -29,12 +29,18 @@ fi
 # --- Microsoft Office: cannot be bundled (licensed). Provide Office on the web
 #     shortcuts and OnlyOffice-compatible LibreOffice for .docx/.xlsx/.pptx. ---
 mkdir -p /usr/share/applications
-for app in "Word|word" "Excel|excel" "PowerPoint|powerpoint"; do
-  name=${app%%|*}; slug=${app##*|}
-  cat > /usr/share/applications/office-$slug.desktop <<EOF
+# One shared browser profile, so signing in once (e.g. with a Microsoft 365 Family
+# account) is remembered across Word, Excel, PowerPoint, Outlook and OneDrive.
+for app in "Word|https://www.office.com/launch/word" \
+           "Excel|https://www.office.com/launch/excel" \
+           "PowerPoint|https://www.office.com/launch/powerpoint" \
+           "Outlook|https://outlook.office.com/mail/" \
+           "OneDrive|https://onedrive.live.com/"; do
+  name=${app%%|*}; url=${app#*|}
+  cat > "/usr/share/applications/office-$name.desktop" <<EOF
 [Desktop Entry]
 Name=Microsoft $name (Web)
-Exec=chromium --app=https://www.office.com/launch/$slug
+Exec=sh -c 'chromium --user-data-dir="\$HOME/.config/winlite-office" --app=$url'
 Icon=applications-office
 Type=Application
 Categories=Office;
