@@ -1,0 +1,21 @@
+#!/bin/sh
+# Installs the user's OWN licensed Microsoft Office into a dedicated Wine prefix.
+# Best results: Office 2010 or 2013 (32-bit). Newer versions are hit and miss under Wine.
+export WINEPREFIX="$HOME/.wine-office"
+export WINEARCH=win32
+export WINEDEBUG=-all
+
+zenity --question --width=480 --title="Install Microsoft Office" \
+  --text="This installs your own licensed copy of Microsoft Office through Wine.\n\nYou need the Office setup.exe (or a mounted setup disc) and your product key.\nOffice 2010 / 2013 work best. This needs an internet connection for fonts and libraries.\n\nContinue?" || exit 0
+
+SETUP=$(zenity --file-selection --title="Select your Office setup.exe" \
+  --file-filter="Setup programs | *.exe *.EXE") || exit 0
+
+(
+  echo "# Preparing Windows environment..."
+  wineboot -i
+  echo "# Installing fonts and libraries..."
+  winetricks -q corefonts msxml6 gdiplus riched20 riched30 fontsmooth=rgb
+) | zenity --progress --pulsate --auto-close --no-cancel --title="Preparing Office" --width=420
+
+wine start /unix "$SETUP"

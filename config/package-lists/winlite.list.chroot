@@ -40,3 +40,4 @@ firmware-linux-nonfree
 firmware-iwlwifi
 firmware-realtek
 firmware-atheros
+zenity

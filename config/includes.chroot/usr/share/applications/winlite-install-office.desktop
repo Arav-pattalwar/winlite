@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Install Microsoft Office
+Comment=Install your own licensed Microsoft Office via Wine
+Exec=/usr/local/bin/winlite-install-office
+Icon=applications-office
+Type=Application
+Categories=Office;Utility;

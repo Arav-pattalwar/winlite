@@ -10,7 +10,7 @@ a live-build recipe: you build the ISO yourself.
 | Old processors | `ARCH=i386` builds a 32-bit image for pre-x86-64 CPUs |
 | Runs .exe | Wine, double-click `.exe` / `.msi` |
 | Chrome preinstalled | Chromium (open source, the same engine as Chrome; Google Chrome itself can't be redistributed) |
-| Office preinstalled | LibreOffice (opens .docx/.xlsx/.pptx) + Word/Excel/PowerPoint web shortcuts. Desktop Microsoft Office is licensed, so it can't be bundled; install your own copy via Wine |
+| Office preinstalled | LibreOffice (opens .docx/.xlsx/.pptx) + Word/Excel/PowerPoint web shortcuts. Desktop Microsoft Office is licensed, so it can't be bundled; use the built-in "Install Microsoft Office" helper to install your own licensed Office 2010/2013 via Wine. OnlyOffice (64-bit image) is also included for best .docx fidelity |
 | No Copilot | No AI assistant or telemetry is installed |
 | NT kernel | Dropped as agreed. This uses the Linux kernel |
 

@@ -19,6 +19,13 @@ if [ "$(dpkg --print-architecture)" = amd64 ]; then
   apt-get install -y wine32:i386 || true
 fi
 
+# --- OnlyOffice Desktop Editors (free; best .docx/.xlsx/.pptx fidelity; amd64 only) ---
+if [ "$(dpkg --print-architecture)" = amd64 ]; then
+  curl -fsSL -o /tmp/onlyoffice.deb https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors_amd64.deb \
+    && apt-get install -y /tmp/onlyoffice.deb || true
+  rm -f /tmp/onlyoffice.deb
+fi
+
 # --- Microsoft Office: cannot be bundled (licensed). Provide Office on the web
 #     shortcuts and OnlyOffice-compatible LibreOffice for .docx/.xlsx/.pptx. ---
 mkdir -p /usr/share/applications
